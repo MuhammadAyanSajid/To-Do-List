@@ -43,6 +43,19 @@ Then open `http://localhost:8000` in your browser.
 - If todos are not saving, ensure your browser allows localStorage for file URLs or serve the site via a local server.
 - If JavaScript doesn't run, open the browser devtools console (F12) and check for errors.
 
+## Deploy on GitHub Pages
+
+You can easily deploy this project on GitHub Pages by following these steps:
+
+1. Go to your repository on GitHub (`https://github.com/MuhammadAyanSajid/To-Do-List`)
+2. Click on "Settings" (top navigation bar)
+3. Scroll down to "GitHub Pages" section
+4. Under "Source", select "GitHub Actions"
+5. The workflow I've already set up (`.github/workflows/deploy.yml`) will automatically deploy your site when you push to the `main` branch
+6. After a few minutes, your site will be live at: `https://muhammadayansajid.github.io/To-Do-List/`
+
+Your site should be updated automatically whenever you push changes to the `main` branch.
+
 ## License
 
 This project is provided as-is under the MIT License. Feel free to use and modify.
