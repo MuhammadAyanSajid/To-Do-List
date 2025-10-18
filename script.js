@@ -12,7 +12,7 @@ function saveTodos() {
     localStorage.setItem('todos', JSON.stringify(todos));
 }
 
-// create a dom node for a todo object and apppend it to the list
+// create a DOM node for a todo object and apppend it to the list
 function createTodoNode(todo, index) {
     const li = document.createElement('li');
 
@@ -22,10 +22,9 @@ function createTodoNode(todo, index) {
     checkbox.checked = !!todo.completed;
     checkbox.addEventListener("change", () => {
         todo.completed = checkbox.checked;
-
-        // TODO: Visusl feedback: Strikethrough when completed
+        textSpan.style.textDecoration = todo.completed ? 'line-through' : 'none';
         saveTodos();
-    })
+    });
 
     // Text of the todo
     const textSpan = document.createElement("span");
@@ -33,19 +32,60 @@ function createTodoNode(todo, index) {
     textSpan.style.margin = '0 8px';
     if (todo.completed) {
         textSpan.style.textDecoration = 'line-through';
-
-        // Add double
     }
+
+    // Add double click event listener to edit todo
+    textSpan.addEventListener("dblclick", () => {
+        const newText = prompt("Edit todo", todo.text);
+        if (newText != null) {
+            todo.text = newText.trim();
+            textSpan.textContent = todo.text;
+            saveTodos();
+        }
+    });
+
+    //Delete Todo Button
+    const delBtn = document.createElement('button');
+    delBtn.textContent = 'Delete';
+    delBtn.addEventListener('click', () => {
+        todos.splice(index, 1);
+        render();
+        saveTodos();
+    });
+
+    li.appendChild(checkbox);
+    li.appendChild(textSpan);
+    li.appendChild(delBtn);
+    return li;
 }
 
-// Render the whole todo list drom todos array
-
+// Render the whole todo list from todos array
 function render() {
-    list.innerHTML = ' ';
-
+    list.innerHTML = '';
     // Recreate each item
     todos.forEach((todo, index) => {
         const node = createTodoNode(todo, index);
-        list.appendChild(node)
+        list.appendChild(node);
     });
 }
+
+function addTodo() {
+    const text = input.value.trim();
+    if (!text) {
+        return
+    }
+
+    // Push a new todo object
+    todos.push({ text, completed: false });
+    input.value = '';
+    render();
+    saveTodos();
+}
+
+addBtn.addEventListener("click", addTodo);
+input.addEventListener('keydown', (e)=>{
+    if (e.key == 'Enter') {
+        addTodo();
+    }
+})
+render();
